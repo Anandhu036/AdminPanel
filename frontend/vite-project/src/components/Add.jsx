@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useEffect } from 'react';
+import axios from 'axios';
 function Add() {
     const {state}=useLocation()
     const navigate=useNavigate()
@@ -21,6 +22,7 @@ function Add() {
         setCourse({...course,[e.target.name]:e.target.value});
     }
     const handleSubmit=async(e)=>{
+        e.preventDefault()
         try{
             if(course._id){
               await  axios.put(`http://localhost:3000/courses/update/${course._id}`,course)

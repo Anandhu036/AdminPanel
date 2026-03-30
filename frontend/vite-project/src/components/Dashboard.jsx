@@ -22,8 +22,9 @@ function Dashboard() {
   const handleDelete=async(id)=>{
     if(!window.confirm("Are u sure"))return;
     try{
-      axios.delete(`http://localhost:3000/courses/delete/${id}`)
-      setCourses(courses.filter((course)=>{course._id!==id}))
+      await axios.delete(`http://localhost:3000/courses/delete/${id}`)
+      setCourses(courses.filter((course) => course._id !== id));
+      console.log("Deleted successfully");
     }catch(err){
       console.log(err)
     }
@@ -33,8 +34,10 @@ function Dashboard() {
   return (
     <>
     <Grid container spacing={3} padding={3}>
-      {courses && courses.map((course)=>(
-    <Card sx={{ maxWidth: 345 }} key={course._id}>
+    {courses && courses.map((course) => (
+        
+        <Grid item xs={12} sm={6} md={4} key={course._id}>
+            <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         sx={{ height: 140 }}
         image="/static/images/cards/contemplative-reptile.jpg"
@@ -55,12 +58,13 @@ function Dashboard() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={()=>navigate("/add",{state:course})}>Edit</Button>
-        <Button size="small" onClick={()=>{handleDelete(course._id)}}>Delete</Button>
-      </CardActions>
-    </Card>
+                    <Button size="small" onClick={() => navigate("/add", { state: course })}>Edit</Button>
+                    <Button size="small" color="error" onClick={() => handleDelete(course._id)}>Delete</Button>
+                </CardActions>
+            </Card>
+        </Grid>
     ))}
-    </Grid>
+</Grid>
      
     </>
   )
